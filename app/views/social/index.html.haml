@@ -5,9 +5,10 @@
     %th 日付
     - User.social_visible.order(:id).each do |user|
       %th= user.name
-  - (@date.beginning_of_month..@date.end_of_month).each do |date|
+  - start_date = @date.days_ago 15
+  - (start_date..start_date.next_month).each do |date|
     %tr
-      %td= date.day
+      %td= date.strftime("%m月%d日")
       - User.social_visible.order(:id).each do |user|
         - if record = user.records.find_by(target_date: date)
           %td= number_with_precision record.to_goal, precision: 1
